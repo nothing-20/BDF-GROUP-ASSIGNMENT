@@ -76,6 +76,13 @@ fitnest-gym/
 ├── middleware/
 │   └── validation.js             # Request body & parameter validation middleware
 │
+├── screenshots/                  # Evidence screenshots organized by team member
+│   ├── member-1-server-and-routes/
+│   ├── member-2-database/
+│   ├── member-3-rest-endpoints/
+│   ├── member-4-validation-and-search/
+│   └── member-5-joins-twist-and-documentation/
+│
 ├── tests/
 │   ├── test-db.js                # SQLite schema and connectivity verification script
 │   ├── test-api.js               # Comprehensive 44-assertion automated API integration test suite
@@ -462,3 +469,186 @@ This project was developed collaboratively by our group members, divided into cl
 **Answer:** 
 1. **Database Level:** The `locker_id` column in the `allotments` table is declared as `INTEGER NOT NULL UNIQUE`. Any duplicate insert will trigger a unique constraint violation.
 2. **Application Level:** In `createAllotment`, the controller verifies whether the locker's status is `'occupied'`, whether it exists in `allotments`, and whether the member already holds an active allotment, returning a meaningful `409 Conflict` before attempting database insertion.
+
+---
+
+# Screenshots & Project Evidence
+
+> [!NOTE]
+> **Instructions for Team Members:**  
+> The screenshot evidence below is organized by each group member's specific responsibilities. Each member must save their screenshots with the exact filenames specified below inside their dedicated folder in `screenshots/`.  
+> Once a screenshot is placed in its folder, the image placeholder will automatically render the image on GitHub.
+
+---
+
+## Member 1 – Server & Routes
+**Folder:** `screenshots/member-1-server-and-routes/`
+
+### 1. Server Running Successfully
+Terminal output demonstrating the Express server starting up, connecting to `fitnest.db`, and listening on port 3000.
+![Server Running](screenshots/member-1-server-and-routes/01-server-running.png)
+
+### 2. Root Endpoint
+API response for `GET /` showing project metadata, status, and navigation endpoints.
+![Root Endpoint](screenshots/member-1-server-and-routes/02-root-endpoint.png)
+
+### 3. Members Route Response
+API response for `GET /members` returning registered gym members.
+![Members Route](screenshots/member-1-server-and-routes/03-members-route.png)
+
+### 4. Lockers Route Response
+API response for `GET /lockers` returning all lockers across all floors.
+![Lockers Route](screenshots/member-1-server-and-routes/04-lockers-route.png)
+
+### 5. Allotments Route Response
+API response for `GET /allotments` returning the list of active locker allotments.
+![Allotments Route](screenshots/member-1-server-and-routes/05-allotments-route.png)
+
+---
+
+## Member 2 – Database
+**Folder:** `screenshots/member-2-database/`
+
+### 1. Database Connection
+Console and log output verifying successful SQLite database connection and initialization of `fitnest.db`.
+![Database Connection](screenshots/member-2-database/01-database-connection.png)
+
+### 2. Database Tables
+Database inspection displaying the three required tables: `members`, `lockers`, and `allotments`.
+![Database Tables](screenshots/member-2-database/02-database-tables.png)
+
+### 3. Members Table Structure & Records
+Table schema definition and initial records for the `members` table.
+![Members Table](screenshots/member-2-database/03-members-table.png)
+
+### 4. Lockers Table Structure & Records
+Table schema definition and initial records for the `lockers` table with status constraints (`available`, `occupied`, `maintenance`).
+![Lockers Table](screenshots/member-2-database/04-lockers-table.png)
+
+### 5. Allotments Table Structure & Records
+Table schema definition and records for the `allotments` table featuring foreign keys and the `UNIQUE` locker constraint.
+![Allotments Table](screenshots/member-2-database/05-allotments-table.png)
+
+### 6. Foreign-Key Constraints Configuration
+Verification of active foreign-key enforcement in SQLite (`PRAGMA foreign_keys = ON;`).
+![Foreign Key Constraints](screenshots/member-2-database/06-foreign-key-constraints.png)
+
+---
+
+## Member 3 – REST Endpoints
+**Folder:** `screenshots/member-3-rest-endpoints/`
+
+### 1. Get All Members
+`GET /members` retrieving all gym members with HTTP 200 OK.
+![Get Members](screenshots/member-3-rest-endpoints/01-get-members.png)
+
+### 2. Get Single Member
+`GET /members/:id` retrieving a single member record by ID with HTTP 200 OK.
+![Get Single Member](screenshots/member-3-rest-endpoints/02-get-single-member.png)
+
+### 3. Create Member
+`POST /members` creating a new member with valid payload returning HTTP 201 Created.
+![Create Member](screenshots/member-3-rest-endpoints/03-create-member.png)
+
+### 4. Delete Member
+`DELETE /members/:id` deleting an unallotted member returning HTTP 200 OK.
+![Delete Member](screenshots/member-3-rest-endpoints/04-delete-member.png)
+
+### 5. Get All Lockers
+`GET /lockers` retrieving all gym lockers with HTTP 200 OK.
+![Get Lockers](screenshots/member-3-rest-endpoints/05-get-lockers.png)
+
+### 6. Create Locker
+`POST /lockers` creating a new gym locker returning HTTP 201 Created.
+![Create Locker](screenshots/member-3-rest-endpoints/06-create-locker.png)
+
+### 7. Update Locker
+`PUT /lockers/:id` updating locker details (name/floor) returning HTTP 200 OK.
+![Update Locker](screenshots/member-3-rest-endpoints/07-update-locker.png)
+
+### 8. Delete Locker
+`DELETE /lockers/:id` deleting a locker that has no active allotment returning HTTP 200 OK.
+![Delete Locker](screenshots/member-3-rest-endpoints/08-delete-locker.png)
+
+### 9. Get All Allotments
+`GET /allotments` retrieving all active allotment records with HTTP 200 OK.
+![Get Allotments](screenshots/member-3-rest-endpoints/09-get-allotments.png)
+
+### 10. Create Allotment
+`POST /allotments` creating an allotment for an available locker returning HTTP 201 Created.
+![Create Allotment](screenshots/member-3-rest-endpoints/10-create-allotment.png)
+
+### 11. Delete Allotment
+`DELETE /allotments/:id` deleting an allotment and returning HTTP 200 OK with locker status restored to available.
+![Delete Allotment](screenshots/member-3-rest-endpoints/11-delete-allotment.png)
+
+---
+
+## Member 4 – Validation & Smart Search
+**Folder:** `screenshots/member-4-validation-and-search/`
+
+### 1. Valid Member Request Validation
+Successful request handling when all required input fields are valid.
+![Valid Member Request](screenshots/member-4-validation-and-search/01-valid-member-request.png)
+
+### 2. Invalid Member Request Error Response
+Validation rejection with HTTP 400 Bad Request when required member fields (`name`, `email`) are empty or missing.
+![Invalid Member Request](screenshots/member-4-validation-and-search/02-invalid-member-request.png)
+
+### 3. Invalid ID Route Parameter Handling
+Validation rejection with HTTP 400 Bad Request when route parameter `:id` is non-numeric or invalid.
+![Invalid ID Request](screenshots/member-4-validation-and-search/03-invalid-id-request.png)
+
+### 4. Smart Search – Lowercase Query
+`GET /lockers?q=locker` searching locker names and floors using lowercase query returning matching records.
+![Lowercase Search](screenshots/member-4-validation-and-search/04-lowercase-search.png)
+
+### 5. Smart Search – Uppercase Query (Case-Insensitive)
+`GET /lockers?q=LOCKER` returning identical results to lowercase query, demonstrating case-insensitivity with `LOWER()`.
+![Uppercase Search](screenshots/member-4-validation-and-search/05-uppercase-search.png)
+
+### 6. Smart Search – No Matches Found
+`GET /lockers?q=zzz` returning HTTP 200 OK (NOT 404) with an empty array `lockers: []` and message `"Nothing found"`.
+![No Match Search](screenshots/member-4-validation-and-search/06-no-match-search.png)
+
+### 7. Floor Search Filter
+`GET /lockers?floor=Ground` filtering lockers specifically located on Ground Floor.
+![Floor Search](screenshots/member-4-validation-and-search/07-floor-search.png)
+
+---
+
+## Member 5 – SQL JOIN, Twist Rules & Documentation
+**Folder:** `screenshots/member-5-joins-twist-and-documentation/`
+
+### 1. SQL JOIN Allotment Details Endpoint
+`GET /allotments/details` demonstrating the SQL INNER JOIN combining allotments, members, and lockers into a unified view.
+![Allotment Details JOIN](screenshots/member-5-joins-twist-and-documentation/01-allotment-details-join.png)
+
+### 2. Successful Locker Allotment
+`POST /allotments` assigning an available locker to a member returning HTTP 201 Created and allotment record.
+![Allotment Success](screenshots/member-5-joins-twist-and-documentation/02-allotment-success.png)
+
+### 3. Occupied Locker Validation (Twist Rule)
+`POST /allotments` rejecting allotment of an occupied locker with HTTP 409 Conflict.
+![Occupied Locker Validation](screenshots/member-5-joins-twist-and-documentation/03-occupied-locker-validation.png)
+
+### 4. Duplicate Member Allotment Prevention (Twist Rule)
+`POST /allotments` preventing a member who already holds an active locker from getting another, returning HTTP 409 Conflict.
+![Duplicate Allotment Validation](screenshots/member-5-joins-twist-and-documentation/04-duplicate-allotment-validation.png)
+
+### 5. Maintenance Locker Validation (Twist Rule)
+`POST /allotments` rejecting allotment of a locker currently under maintenance with HTTP 400 Bad Request.
+![Maintenance Locker Validation](screenshots/member-5-joins-twist-and-documentation/05-maintenance-locker-validation.png)
+
+### 6. Locker Status Updated After Allotment
+`GET /lockers/:id` demonstrating the locker status transitioning from `'available'` to `'occupied'` upon allotment.
+![Locker Status After Allotment](screenshots/member-5-joins-twist-and-documentation/06-locker-status-after-allotment.png)
+
+### 7. Locker Status Restored After Deletion
+`GET /lockers/:id` demonstrating the locker status automatically resetting to `'available'` upon deleting the allotment.
+![Locker Status After Deletion](screenshots/member-5-joins-twist-and-documentation/07-locker-status-after-deletion.png)
+
+### 8. Postman Test Suite Execution Results
+Postman Collection Runner results demonstrating all 18 API test requests executing and passing with green status assertions.
+![Postman Test Results](screenshots/member-5-joins-twist-and-documentation/08-postman-test-results.png)
+

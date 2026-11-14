@@ -11,6 +11,7 @@ The entire project and its source files are organized inside the **[`group-assig
   - 📁 `routes/` – Express router endpoints (`members`, `lockers`, `allotments`)
   - 📁 `controllers/` – Controllers & business logic
   - 📁 `middleware/` – Validation middleware
+  - 📁 `screenshots/` – Screenshot documentation & project evidence folders
   - 📁 `tests/` – Automated API test suites
   - 📄 `server.js` – Main Express server application
   - 📄 `package.json` – Dependencies & scripts
