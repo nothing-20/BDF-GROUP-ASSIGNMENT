@@ -13,8 +13,7 @@ Thumbs.db
 .vscode/
 .idea/
 
-# SQLite Database (generated on server start)
-fitnest.db
+# SQLite Database
 *.db
 *.sqlite
 *.sqlite3
