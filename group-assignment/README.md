@@ -484,23 +484,19 @@ This project was developed collaboratively by our group members, divided into cl
 ## Member 1 – Server & Routes
 **Folder:** `screenshots/member-1-server-and-routes/`
 
-### 1. Server Running Successfully
-Terminal output demonstrating the Express server starting up, connecting to `fitnest.db`, and listening on port 3000.
-![Server Running](screenshots/member-1-server-and-routes/01-server-running.png)
-
-### 2. Root Endpoint
+### 1. Root Endpoint
 API response for `GET /` showing project metadata, status, and navigation endpoints.
 ![Root Endpoint](screenshots/member-1-server-and-routes/02-root-endpoint.png)
 
-### 3. Members Route Response
+### 2. Members Route Response
 API response for `GET /members` returning registered gym members.
 ![Members Route](screenshots/member-1-server-and-routes/03-members-route.png)
 
-### 4. Lockers Route Response
+### 3. Lockers Route Response
 API response for `GET /lockers` returning all lockers across all floors.
 ![Lockers Route](screenshots/member-1-server-and-routes/04-lockers-route.png)
 
-### 5. Allotments Route Response
+### 4. Allotments Route Response
 API response for `GET /allotments` returning the list of active locker allotments.
 ![Allotments Route](screenshots/member-1-server-and-routes/05-allotments-route.png)
 
