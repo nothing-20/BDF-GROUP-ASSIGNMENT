@@ -1,0 +1,691 @@
+{
+  "info": {
+    "_postman_id": "fitnest-gym-api-testing-collection",
+    "name": "FitNest Gym API Testing",
+    "description": "Comprehensive Postman test collection for FitNest Gym Locker Management System (Backend Development Fundamentals Modules 1, 2, and 3).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "created_member_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "created_locker_id",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "created_allotment_id",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Members API",
+      "item": [
+        {
+          "name": "Get all members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": ["{{base_url}}"],
+              "path": ["members"]
+            },
+            "description": "Retrieves the list of all gym members. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Response is an array of members\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(Array.isArray(jsonData)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get one member",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/members/1",
+              "host": ["{{base_url}}"],
+              "path": ["members", "1"]
+            },
+            "description": "Retrieves a single member by member_id (e.g., ID 1). Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Member ID matches request\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.member_id).to.eql(1);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add a member",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rahul\",\n  \"email\": \"rahul@example.com\",\n  \"phone\": \"9876543210\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": ["{{base_url}}"],
+              "path": ["members"]
+            },
+            "description": "Adds a new gym member with name, email, and phone. Captures created_member_id. Expected: HTTP 201 Created."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"Returns created member details\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('member');",
+                  "    pm.expect(jsonData.member.name).to.eql('Rahul');",
+                  "    if (jsonData.member && jsonData.member.member_id) {",
+                  "        pm.collectionVariables.set('created_member_id', jsonData.member.member_id.toString());",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Lockers API",
+      "item": [
+        {
+          "name": "Get all lockers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/lockers",
+              "host": ["{{base_url}}"],
+              "path": ["lockers"]
+            },
+            "description": "Retrieves all lockers currently configured in the system. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Response is an array of lockers\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(Array.isArray(jsonData)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get one locker",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/lockers/1",
+              "host": ["{{base_url}}"],
+              "path": ["lockers", "1"]
+            },
+            "description": "Retrieves one locker by locker_id (e.g., ID 1). Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Locker ID matches\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.locker_id).to.eql(1);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Add a locker",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Locker Temp\",\n  \"floor\": \"Second Floor\",\n  \"status\": \"available\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/lockers",
+              "host": ["{{base_url}}"],
+              "path": ["lockers"]
+            },
+            "description": "Creates a new locker in the gym. Captures created_locker_id. Expected: HTTP 201 Created."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"Returns new locker object\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('locker');",
+                  "    pm.expect(jsonData.locker.name).to.eql('Locker Temp');",
+                  "    if (jsonData.locker && jsonData.locker.locker_id) {",
+                  "        pm.collectionVariables.set('created_locker_id', jsonData.locker.locker_id.toString());",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Update a locker",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Locker Temp (Renamed)\",\n  \"floor\": \"Third Floor\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/lockers/{{created_locker_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["lockers", "{{created_locker_id}}"]
+            },
+            "description": "Updates locker details such as name or floor for the newly created locker. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Locker updated successfully\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.locker.floor).to.eql('Third Floor');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete a locker",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/lockers/{{created_locker_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["lockers", "{{created_locker_id}}"]
+            },
+            "description": "Deletes the temporary locker created earlier that has no active allotment. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Custom Feature - Smart Search",
+      "item": [
+        {
+          "name": "Search lockers using lowercase",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/lockers?q=locker",
+              "host": ["{{base_url}}"],
+              "path": ["lockers"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "locker"
+                }
+              ]
+            },
+            "description": "Searches lockers where name or floor contains lowercase 'locker'. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Returns array of matched lockers\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(Array.isArray(jsonData)).to.be.true;",
+                  "    pm.expect(jsonData.length).to.be.above(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search lockers using uppercase",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/lockers?q=LOCKER",
+              "host": ["{{base_url}}"],
+              "path": ["lockers"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "LOCKER"
+                }
+              ]
+            },
+            "description": "Searches lockers with uppercase 'LOCKER'. Must return exact same results as lowercase search. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Case-insensitivity holds true\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(Array.isArray(jsonData)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search lockers with no matches",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/lockers?q=zzz",
+              "host": ["{{base_url}}"],
+              "path": ["lockers"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "zzz"
+                }
+              ]
+            },
+            "description": "Searches with 'zzz'. Must return HTTP 200 (NOT 404), empty lockers list, and message 'Nothing found'."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 (NOT 404)\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Contains empty lockers array\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.lockers).to.be.an('array').that.is.empty;",
+                  "});",
+                  "pm.test(\"Message is exactly 'Nothing found'\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.message).to.eql('Nothing found');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Search lockers by floor",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/lockers?floor=Ground",
+              "host": ["{{base_url}}"],
+              "path": ["lockers"],
+              "query": [
+                {
+                  "key": "floor",
+                  "value": "Ground"
+                }
+              ]
+            },
+            "description": "Searches lockers filtering by floor query parameter. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Returns matching floor records\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(Array.isArray(jsonData)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4. Allotments API & SQL JOIN",
+      "item": [
+        {
+          "name": "Create an allotment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"member_id\": {{created_member_id}},\n  \"locker_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/allotments",
+              "host": ["{{base_url}}"],
+              "path": ["allotments"]
+            },
+            "description": "Allots available Locker 2 to the created member. Updates Locker 2 status to occupied. Expected: HTTP 201 Created."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "pm.test(\"Returns created allotment\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('allotment');",
+                  "    if (jsonData.allotment && jsonData.allotment.allotment_id) {",
+                  "        pm.collectionVariables.set('created_allotment_id', jsonData.allotment.allotment_id.toString());",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Test duplicate locker allotment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"member_id\": 1,\n  \"locker_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/allotments",
+              "host": ["{{base_url}}"],
+              "path": ["allotments"]
+            },
+            "description": "Attempts to allot Locker 2 again (which was just allotted to another member and is now occupied). Expected: HTTP 409 Conflict."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 409 Conflict\", function () {",
+                  "    pm.response.to.have.status(409);",
+                  "});",
+                  "pm.test(\"Error property describes conflict\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get all allotments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/allotments",
+              "host": ["{{base_url}}"],
+              "path": ["allotments"]
+            },
+            "description": "Retrieves all allotment records from the allotments table. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Response is an array of allotments\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(Array.isArray(jsonData)).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get allotment details using JOIN",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/allotments/details",
+              "host": ["{{base_url}}"],
+              "path": ["allotments", "details"]
+            },
+            "description": "Executes SQL JOIN query across members, lockers, and allotments tables. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"JOIN returns combined member and locker details\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(Array.isArray(jsonData)).to.be.true;",
+                  "    if (jsonData.length > 0) {",
+                  "        var row = jsonData[0];",
+                  "        pm.expect(row).to.have.property('allotment_id');",
+                  "        pm.expect(row).to.have.property('member_name');",
+                  "        pm.expect(row).to.have.property('locker_name');",
+                  "        pm.expect(row).to.have.property('floor');",
+                  "        pm.expect(row).to.have.property('allotted_at');",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete an allotment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/allotments/{{created_allotment_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["allotments", "{{created_allotment_id}}"]
+            },
+            "description": "Deletes the allotment record created earlier and updates associated locker status back to available. Expected: HTTP 200 OK."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "5. Negative & Validation Testing",
+      "item": [
+        {
+          "name": "Test invalid locker input",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"floor\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/lockers",
+              "host": ["{{base_url}}"],
+              "path": ["lockers"]
+            },
+            "description": "Tests validation when adding a locker with empty strings. Expected: HTTP 400 Bad Request."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 400\", function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "pm.test(\"Error property is returned\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('error');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
